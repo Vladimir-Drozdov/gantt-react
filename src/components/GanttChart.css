@@ -1,0 +1,133 @@
+.gantt-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.gantt-controls {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.control-btn {
+  padding: 8px 16px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background: white;
+  color: #333;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.control-btn:hover {
+  border-color: #2196F3;
+  color: #2196F3;
+  background: #f0f7ff;
+}
+
+.control-btn.active {
+  background: #2196F3;
+  color: white;
+  border-color: #2196F3;
+}
+
+.gantt-container {
+  width: 100%;
+  overflow-x: auto;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  background: white;
+  min-height: 400px;
+}
+
+.gantt-container > div {
+  min-width: 1000px;
+}
+
+.gantt-empty {
+  padding: 40px;
+  text-align: center;
+  color: #999;
+  font-size: 14px;
+  border: 1px dashed #ddd;
+  border-radius: 4px;
+  background: #fafafa;
+}
+
+/* Кастомизация цветов задач в зависимости от статуса */
+.task-completed {
+  background-color: #4CAF50 !important;
+}
+
+.task-completed path,
+.task-completed rect {
+  fill: #4CAF50 !important;
+}
+
+.task-in-progress {
+  background-color: #2196F3 !important;
+}
+
+.task-in-progress path,
+.task-in-progress rect {
+  fill: #2196F3 !important;
+}
+
+.task-pending {
+  background-color: #FFC107 !important;
+}
+
+.task-pending path,
+.task-pending rect {
+  fill: #FFC107 !important;
+}
+
+.task-on-hold {
+  background-color: #FF9800 !important;
+}
+
+.task-on-hold path,
+.task-on-hold rect {
+  fill: #FF9800 !important;
+}
+
+.task-default {
+  background-color: #9E9E9E !important;
+}
+
+.task-default path,
+.task-default rect {
+  fill: #9E9E9E !important;
+}
+
+/* Отключаем интерактивность для read-only режима */
+.gantt-container svg {
+  user-select: none;
+}
+
+.gantt-container .bar-wrapper {
+  cursor: default !important;
+}
+
+.gantt-container .bar-wrapper:hover {
+  filter: none !important;
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+  .gantt-controls {
+    flex-wrap: wrap;
+  }
+
+  .control-btn {
+    flex: 1;
+    min-width: 60px;
+  }
+
+  .gantt-container {
+    min-height: 300px;
+  }
+}
