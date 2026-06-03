@@ -1,3 +1,4 @@
+import { useRef, useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { useProjectData } from '../hooks/useProjectData'
 import GanttChart from '../components/GanttChart'
@@ -10,34 +11,42 @@ import './ProjectPage.css'
 function ProjectPage() {
   const { uuid } = useParams()
   const { project, loading, error } = useProjectData(uuid)
+  const mainContentRef = useRef(null)
+  const [sidebarMaxHeight, setSidebarMaxHeight] = useState(null)
 
-  if (loading) {
-    return <LoadingSpinner />
-  }
+  useEffect(() => {
+    if (!mainContentRef.current) return
 
-  if (error) {
-    return <ErrorMessage error={error} />
-  }
+    const observer = new ResizeObserver(() => {
+      setSidebarMaxHeight(mainContentRef.current.offsetHeight)
+    })
 
-  if (!project) {
-    return <ErrorMessage error="Проект не найден" />
-  }
+    observer.observe(mainContentRef.current)
+    return () => observer.disconnect()
+  }, [project]) // перезапускаем когда проект загрузился
+
+  if (loading) return <LoadingSpinner />
+  if (error) return <ErrorMessage error={error} />
+  if (!project) return <ErrorMessage error="Проект не найден" />
 
   return (
     <div className="project-page">
       <ProjectHeader project={project} uuid={uuid} />
-      
+
       <div className="project-content">
-        <div className="sidebar">
+        <div
+          className="sidebar"
+          style={{ maxHeight: sidebarMaxHeight ? `${sidebarMaxHeight}px` : 'none' }}
+        >
           <h2>Структура задач</h2>
           {project.tasks && project.tasks.length > 0 ? (
             <TaskHierarchy tasks={project.tasks} />
           ) : (
             <p className="empty-message">Нет задач</p>
           )}
-        </div> 
+        </div>
 
-        <div className="main-content">
+        <div className="main-content" ref={mainContentRef}>
           <h2>Диаграмма Ганта</h2>
           {project.tasks && project.tasks.length > 0 ? (
             <GanttChart project={project} />

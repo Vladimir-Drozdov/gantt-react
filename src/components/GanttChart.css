@@ -131,3 +131,85 @@
     min-height: 300px;
   }
 }
+
+/* Шапка */
+.gtl-header-row {
+  display: flex;
+  height: 100%;
+  align-items: center;
+  border-bottom: 1px solid #e0e0e0;
+  background: #f5f5f5;
+  user-select: none;
+}
+
+.gtl-header-cell {
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding: 0 8px;
+  height: 100%;
+  border-right: 1px solid #e0e0e0;
+  overflow: hidden;
+  box-sizing: border-box;
+  flex-shrink: 0;
+}
+
+.gtl-header-label {
+  font-weight: 600;
+  font-size: 13px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Ручка resize */
+.gtl-resize-handle {
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 6px;
+  height: 100%;
+  cursor: col-resize;
+  z-index: 10;
+}
+
+.gtl-resize-handle:hover,
+.gtl-resize-handle:active {
+  background: #2196F3;
+  opacity: 0.5;
+}
+
+/* Строки таблицы */
+.gtl-body {
+  display: flex;
+  flex-direction: column;
+}
+
+.gtl-row {
+  display: flex;
+  border-bottom: 1px solid #f0f0f0;
+  height: 50px; /* должно совпадать с rowHeight Gantt */
+  align-items: center;
+}
+
+.gtl-row:hover {
+  background: #f9f9f9;
+}
+
+.gtl-cell {
+  padding: 0 8px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  border-right: 1px solid #e0e0e0;
+  overflow: hidden;
+  box-sizing: border-box;
+  flex-shrink: 0;
+}
+
+.gtl-cell-text {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 13px;
+}
