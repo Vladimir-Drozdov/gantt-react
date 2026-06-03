@@ -31,6 +31,6 @@ npm run build
 | `src/hooks/useProjectData.js` | Загрузка данных с API |
 | `src/utils/dateUtils.js` | Преобразование данных для Ганта |
 | `vite.config.js` | Конфиг подключения к бэкенду |
-| `.env.local` | Адрес API (создайте из .env.example) |
+| `.env.local` | Адрес API (создать из .env.example) |
 
 
