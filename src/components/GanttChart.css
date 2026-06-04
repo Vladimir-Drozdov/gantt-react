@@ -1,215 +1,323 @@
+/* ══════════════════════════════════════════════════════════════
+   Тёмная тема — точные переопределения gantt-task-react
+   Классы получены из реального dist/index.css библиотеки
+══════════════════════════════════════════════════════════════ */
+
+:root {
+  --g-bg:       #0e1525;
+  --g-panel:    #141d2e;
+  --g-header:   #192133;
+  --g-border:   #243250;
+  --g-text:     #c4d1e8;
+  --g-muted:    #5a6e94;
+  --g-hover:    #1c2b44;
+  --g-row-a:    #0e1525;
+  --g-row-b:    #111828;
+  --g-tick:     #1a2640;
+  --g-today:    rgba(239,68,68,0.45);
+}
+
+/* ─── Обёртка ─────────────────────────────────────────────── */
 .gantt-wrapper {
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  height: calc(100vh - 140px);
+  min-height: 500px;
+  background: var(--g-bg);
+  border-radius: 8px;
+  border: 1px solid var(--g-border);
+  overflow: hidden;
 }
 
-.gantt-controls {
+/* ─── Тулбар ──────────────────────────────────────────────── */
+.gantt-toolbar {
   display: flex;
-  gap: 8px;
-  margin-bottom: 10px;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 16px;
+  background: var(--g-header);
+  border-bottom: 1px solid var(--g-border);
+  flex-shrink: 0;
 }
 
-.control-btn {
-  padding: 8px 16px;
-  border: 1px solid #ddd;
+.gantt-controls { display: flex; gap: 4px; }
+
+.ctrl-btn {
+  padding: 5px 16px;
+  background: transparent;
+  border: 1px solid var(--g-border);
+  color: var(--g-muted);
   border-radius: 4px;
-  background: white;
-  color: #333;
   cursor: pointer;
   font-size: 13px;
-  font-weight: 500;
-  transition: all 0.2s ease;
+  transition: all .15s;
 }
+.ctrl-btn:hover { background: var(--g-hover); color: var(--g-text); }
+.ctrl-btn.active { background: #1d4ed8; border-color: #2563eb; color: #fff; }
 
-.control-btn:hover {
-  border-color: #2196F3;
-  color: #2196F3;
-  background: #f0f7ff;
-}
-
-.control-btn.active {
-  background: #2196F3;
-  color: white;
-  border-color: #2196F3;
-}
-
-.gantt-container {
-  width: 100%;
-  overflow-x: auto;
-  border: 1px solid #e0e0e0;
-  border-radius: 4px;
-  background: white;
-  min-height: 400px;
-}
-
-.gantt-container > div {
-  min-width: 1000px;
+/* ─── Область диаграммы ───────────────────────────────────── */
+.gantt-scroll-area {
+  flex: 1;
+  overflow: auto;
+  min-height: 0;
+  background: var(--g-bg);
 }
 
 .gantt-empty {
-  padding: 40px;
+  padding: 80px 40px;
   text-align: center;
-  color: #999;
+  color: var(--g-muted);
   font-size: 14px;
-  border: 1px dashed #ddd;
-  border-radius: 4px;
-  background: #fafafa;
 }
 
-/* Кастомизация цветов задач в зависимости от статуса */
-.task-completed {
-  background-color: #4CAF50 !important;
+/* ════════════════════════════════════════════════════════════
+   Переопределение HTML-классов gantt-task-react
+   (Классы выяснены по реальному dist/index.css)
+════════════════════════════════════════════════════════════ */
+
+/* Обёртка всей таблицы задач — _3_ygE */
+._3_ygE {
+  background: var(--g-header) !important;
+  border-color: var(--g-border) !important;
 }
 
-.task-completed path,
-.task-completed rect {
-  fill: #4CAF50 !important;
+/* Строка заголовка — _1nBOt */
+._1nBOt { background: var(--g-header) !important; }
+
+/* Ячейка заголовка — _WuQ0f */
+._WuQ0f {
+  color: var(--g-muted) !important;
+  background: var(--g-header) !important;
+  font-size: 11px !important;
 }
 
-.task-in-progress {
-  background-color: #2196F3 !important;
+/* Разделитель — _2eZzQ */
+._2eZzQ { border-color: var(--g-border) !important; }
+
+/* Тело таблицы — _3ZbQT */
+._3ZbQT {
+  background: var(--g-panel) !important;
+  border-color: var(--g-border) !important;
 }
 
-.task-in-progress path,
-.task-in-progress rect {
-  fill: #2196F3 !important;
+/* Строки тела — _34SS0 */
+._34SS0 { background: var(--g-row-a) !important; }
+._34SS0:nth-of-type(even) { background-color: var(--g-row-b) !important; }
+._34SS0:hover { background: var(--g-hover) !important; }
+
+/* Ячейки тела — _3lLk3 */
+._3lLk3 { color: var(--g-text) !important; }
+
+/* Кнопка раскрытия — _2QjE6 */
+._2QjE6 { color: var(--g-muted) !important; }
+
+/* Название задачи — _2TfEi */
+._2TfEi { color: var(--g-text) !important; }
+
+/* Flex-обёртка — _nI1Xw */
+._nI1Xw { background: var(--g-bg) !important; }
+
+/* Контейнер Ганта — _CZjuD, _2B2zv, _3eULf */
+._CZjuD { background: var(--g-bg) !important; overflow: hidden !important; }
+._2B2zv { background: var(--g-bg) !important; }
+._3eULf { background: var(--g-bg) !important; }
+
+/* Тултип — _3T42e */
+._3T42e {
+  background: var(--g-header) !important;
+  border: 1px solid var(--g-border) !important;
+  color: var(--g-text) !important;
+  box-shadow: 0 8px 24px rgba(0,0,0,.5) !important;
 }
+._29NTg { color: var(--g-muted) !important; }
 
-.task-pending {
-  background-color: #FFC107 !important;
+/* ════════════════════════════════════════════════════════════
+   Переопределение SVG-классов gantt-task-react
+════════════════════════════════════════════════════════════ */
+
+/* Строки сетки (SVG rect) — _2dZTy */
+._2dZTy { fill: var(--g-row-a) !important; }
+._2dZTy:nth-child(even) { fill: var(--g-row-b) !important; }
+
+/* Горизонтальные линии строк — _3rUKi */
+._3rUKi { stroke: var(--g-tick) !important; }
+
+/* Вертикальные линии (тики) — _RuwuK */
+._RuwuK { stroke: var(--g-border) !important; }
+
+/* Верхняя линия календаря — _1rLuZ */
+._1rLuZ { stroke: var(--g-border) !important; }
+
+/* Текст верхней строки календаря (год/месяц) — _9w8d5 */
+._9w8d5 { fill: var(--g-text) !important; }
+
+/* Текст нижней строки календаря (дни/недели) — _2q1Kt */
+._2q1Kt { fill: var(--g-muted) !important; }
+
+/* Надпись внутри бара (по центру) — _3zRJQ */
+._3zRJQ { fill: #fff !important; font-size: 11px !important; }
+
+/* Надпись снаружи бара — _3KcaM */
+._3KcaM { fill: var(--g-text) !important; font-size: 11px !important; }
+
+/* Дефолтный бар — _35nLX (переопределяется per-task через styles) */
+._35nLX { fill: #1d4ed8 !important; stroke: #1e3a8a !important; }
+
+/* Хэндл изменения размера бара — _3w_5u */
+._3w_5u { fill: rgba(255,255,255,.25) !important; }
+
+/* Прозрачность group-бара — _2RbVy */
+._2RbVy { opacity: .9 !important; }
+
+/* Скроллбары внутри библиотеки — _1eT-t, _2k9Ys */
+._1eT-t::-webkit-scrollbar-thumb,
+._2k9Ys::-webkit-scrollbar-thumb {
+  background: var(--g-border) !important;
 }
+._1eT-t::-webkit-scrollbar-corner,
+._2k9Ys::-webkit-scrollbar-corner { background: var(--g-bg) !important; }
 
-.task-pending path,
-.task-pending rect {
-  fill: #FFC107 !important;
-}
+/* SVG background */
+.gantt-scroll-area svg { background: var(--g-bg); }
 
-.task-on-hold {
-  background-color: #FF9800 !important;
-}
+/* ════════════════════════════════════════════════════════════
+   Кастомная таблица задач (наши компоненты)
+════════════════════════════════════════════════════════════ */
 
-.task-on-hold path,
-.task-on-hold rect {
-  fill: #FF9800 !important;
-}
-
-.task-default {
-  background-color: #9E9E9E !important;
-}
-
-.task-default path,
-.task-default rect {
-  fill: #9E9E9E !important;
-}
-
-/* Отключаем интерактивность для read-only режима */
-.gantt-container svg {
-  user-select: none;
-}
-
-.gantt-container .bar-wrapper {
-  cursor: default !important;
-}
-
-.gantt-container .bar-wrapper:hover {
-  filter: none !important;
-}
-
-/* Адаптивность */
-@media (max-width: 768px) {
-  .gantt-controls {
-    flex-wrap: wrap;
-  }
-
-  .control-btn {
-    flex: 1;
-    min-width: 60px;
-  }
-
-  .gantt-container {
-    min-height: 300px;
-  }
-}
-
-/* Шапка */
-.gtl-header-row {
+/* Заголовок */
+.gtl-header {
   display: flex;
-  height: 100%;
-  align-items: center;
-  border-bottom: 1px solid #e0e0e0;
-  background: #f5f5f5;
+  align-items: stretch;
+  background: var(--g-header);
+  border-bottom: 1px solid var(--g-border);
   user-select: none;
+  overflow: hidden;
 }
 
-.gtl-header-cell {
+.gtl-hcell {
   position: relative;
   display: flex;
   align-items: center;
-  padding: 0 8px;
-  height: 100%;
-  border-right: 1px solid #e0e0e0;
-  overflow: hidden;
-  box-sizing: border-box;
+  padding: 0 10px;
+  border-right: 1px solid var(--g-border);
   flex-shrink: 0;
+  overflow: hidden;
+  white-space: nowrap;
 }
 
-.gtl-header-label {
-  font-weight: 600;
-  font-size: 13px;
-  white-space: nowrap;
+.gtl-hcell-label {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--g-muted);
+  text-transform: uppercase;
+  letter-spacing: .5px;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
-/* Ручка resize */
-.gtl-resize-handle {
+.gtl-resizer {
   position: absolute;
   right: 0;
   top: 0;
-  width: 6px;
   height: 100%;
+  width: 5px;
   cursor: col-resize;
-  z-index: 10;
+  z-index: 2;
 }
+.gtl-resizer:hover { background: #2563eb; }
 
-.gtl-resize-handle:hover,
-.gtl-resize-handle:active {
-  background: #2196F3;
-  opacity: 0.5;
-}
-
-/* Строки таблицы */
-.gtl-body {
-  display: flex;
-  flex-direction: column;
-}
+/* Тело */
+.gtl-body { overflow: hidden; }
 
 .gtl-row {
   display: flex;
-  border-bottom: 1px solid #f0f0f0;
-  height: 50px; /* должно совпадать с rowHeight Gantt */
   align-items: center;
+  border-bottom: 1px solid var(--g-tick);
+  transition: background .1s;
 }
-
-.gtl-row:hover {
-  background: #f9f9f9;
-}
+.gtl-row:nth-child(odd)  { background: var(--g-row-a); }
+.gtl-row:nth-child(even) { background: var(--g-row-b); }
+.gtl-row:hover           { background: var(--g-hover); }
 
 .gtl-cell {
-  padding: 0 8px;
-  height: 100%;
   display: flex;
   align-items: center;
-  border-right: 1px solid #e0e0e0;
-  overflow: hidden;
-  box-sizing: border-box;
+  height: 100%;
+  padding: 0 8px;
+  border-right: 1px solid var(--g-tick);
   flex-shrink: 0;
+  overflow: hidden;
 }
 
-.gtl-cell-text {
+/* Ячейка «Название» */
+.gtl-cell-name { padding: 0; }
+
+.gtl-name-inner {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  width: 100%;
+  overflow: hidden;
+}
+
+/* Стрелка раскрытия */
+.gtl-arrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+  background: transparent;
+  border: none;
+  color: var(--g-muted);
+  cursor: pointer;
+  font-size: 9px;
+  padding: 0;
+  transition: transform .18s, color .15s;
+  border-radius: 3px;
+}
+.gtl-arrow:hover { color: #60a5fa; background: rgba(96,165,250,.1); }
+.gtl-arrow.open  { transform: rotate(90deg); color: var(--g-text); }
+
+/* Цветная точка для задач без детей */
+.gtl-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  margin-left: 2px;
+}
+
+.gtl-name-text {
+  font-size: 13px;
+  color: var(--g-text);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  font-size: 13px;
+  flex: 1;
 }
+
+.gtl-date {
+  font-size: 12px;
+  color: var(--g-muted);
+  white-space: nowrap;
+}
+
+/* Статус-бейджи */
+.gtl-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 8px;
+  border-radius: 3px;
+  font-size: 11px;
+  font-weight: 600;
+  white-space: nowrap;
+  text-transform: uppercase;
+  letter-spacing: .3px;
+}
+.st-done     { background: rgba(34,197,94,.12);  color: #4ade80; }
+.st-progress { background: rgba(59,130,246,.18); color: #60a5fa; }
+.st-pending  { background: rgba(107,114,128,.15);color: #9ca3af; }
+.st-hold     { background: rgba(245,158,11,.13); color: #fbbf24; }
+.st-new      { background: rgba(99,102,241,.15); color: #818cf8; }

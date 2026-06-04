@@ -42,7 +42,7 @@ function TaskNode({ task, depth }) {
         )}
         
         {!hasChildren && <span className="expand-placeholder" />}
-
+ 
         <div className="task-info">
           <span className="task-name">{task.name}</span>
           

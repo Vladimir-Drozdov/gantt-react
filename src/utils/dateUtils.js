@@ -1,62 +1,68 @@
-import { format, parseISO, differenceInDays } from 'date-fns'
+import { format, parseISO, addDays } from 'date-fns'
 import { ru } from 'date-fns/locale'
 
-/**
- * Форматирует дату в русском формате
- */
 export function formatDate(date) {
   try {
     const parsed = typeof date === 'string' ? parseISO(date) : date
-    return format(parsed, 'dd MMM yyyy', { locale: ru })
+    return format(parsed, 'dd.MM.yyyy', { locale: ru })
   } catch {
-    return 'Неизвестная дата'
+    return '—'
   }
 }
 
-/**
- * Вычисляет длительность проекта в днях
- */
-export function calculateDuration(startDate, endDate) {
+function adjustColor(hex, amount) {
   try {
-    const start = typeof startDate === 'string' ? parseISO(startDate) : startDate
-    const end = typeof endDate === 'string' ? parseISO(endDate) : endDate
-    return differenceInDays(end, start) + 1 // +1 чтобы включить оба дня
+    const r = Math.min(255, Math.max(0, parseInt(hex.slice(1,3), 16) + amount))
+    const g = Math.min(255, Math.max(0, parseInt(hex.slice(3,5), 16) + amount))
+    const b = Math.min(255, Math.max(0, parseInt(hex.slice(5,7), 16) + amount))
+    return `#${r.toString(16).padStart(2,'0')}${g.toString(16).padStart(2,'0')}${b.toString(16).padStart(2,'0')}`
   } catch {
-    return 0
+    return hex
   }
 }
 
 /**
- * Преобразует объект задачи для gantt-task-react: преобразовываем start и end в даты, добавляем type: 'task',
+ * Рекурсивно преобразует иерархию задач в плоский список для gantt-task-react
+ * Сохраняет depth для отступов и status для бейджа
  */
-export function transformTaskForGantt(task) {
-  return {
-    id: task.id,
-    name: task.name,
-    start: task.startDate ? new Date(task.startDate) : new Date(),  // Date объект
-    end: task.endDate ? new Date(task.endDate) : new Date(),        // Date объект
-    progress: task.progress || 0,
-    dependencies: task.dependencies || [],
-    type: 'task',        // обязательное поле для gantt-task-react
-    isDisabled: true,    // read-only режим
-  }
-}
-
-/**
- * Рекурсивно преобразует иерархию задач в плоский список для Ганта
- */
-export function flattenTasksForGantt(tasks, depth = 0) {
+export function flattenTasksForGantt(tasks, depth = 0, parentId = undefined) {
   return tasks.flatMap(task => {
-    const transformed = transformTaskForGantt(task)
-    // Добавляем отступ для вложенных задач через название
-    if (depth > 0) {
-      transformed.name = '  '.repeat(depth) + transformed.name
+    const hasChildren = task.children && task.children.length > 0
+    const color = task.color || '#4b5563'
+
+    let start = typeof task.startDate === 'string' ? parseISO(task.startDate) : task.startDate
+    let end   = typeof task.endDate   === 'string' ? parseISO(task.endDate)   : task.endDate
+
+    // gantt-task-react требует end > start; однодневные задачи — +1 день
+    if (end <= start) end = addDays(start, 1)
+
+    const ganttTask = {
+      id:           task.id,
+      name:         task.name,
+      start,
+      end,
+      progress:     task.progress || 0,
+      type:         hasChildren ? 'project' : 'task',
+      dependencies: task.dependencies || [],
+      hideChildren: false,
+      project:      parentId,          // нужно для фильтрации дочерних элементов
+      styles: {
+        backgroundColor:         color,
+        backgroundSelectedColor: adjustColor(color, 20),
+        progressColor:           adjustColor(color, 30),
+        progressSelectedColor:   adjustColor(color, 40),
+      },
+      // Кастомные поля для нашей таблицы
+      status:   task.status || 'default',
+      assignee: task.assignee || '',
+      color,
+      depth,
     }
-    
-    const children = task.children && task.children.length > 0 
-      ? flattenTasksForGantt(task.children, depth + 1)
+
+    const children = hasChildren
+      ? flattenTasksForGantt(task.children, depth + 1, task.id)
       : []
-    
-    return [transformed, ...children]
+
+    return [ganttTask, ...children]
   })
 }

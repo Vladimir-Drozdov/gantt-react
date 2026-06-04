@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import axios from 'axios'
-import { mockProject } from '../mocks/mockData' // Добавьте импорт
+import { mockProjects } from '../mocks/mockData' // Добавьте импорт
 
 export function useProjectData(uuid) {
   const [project, setProject] = useState(null)
@@ -19,15 +19,20 @@ export function useProjectData(uuid) {
         setLoading(true)
         setError(null)
 
-        // Используются mock-данные если UUID начинается с "test"
-        if (uuid.startsWith('test')) {
-          setProject(mockProject)
+        // Используются mock-данные
+        if (uuid) {
+          const found = mockProjects.find(p => p.id === uuid)
+          if (found) {
+            setProject(found)
+          } else {
+            setError('Проект не найден')
+          }
           return
         }
 
-        // Иначе делается реальный запрос
-        const response = await axios.get(`/api/projects/${uuid}`)
-        setProject(response.data)
+        // Реальный запрос
+        // const response = await axios.get(`/api/projects/${uuid}`)
+        // setProject(response.data)
       } catch (err) {
         console.error('Ошибка при загрузке проекта:', err)
         if (err.response?.status === 404) {
