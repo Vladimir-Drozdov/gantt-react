@@ -14,9 +14,7 @@ const STATUS_MAP = {
   default:    { label: 'Новое',      cls: 'st-new'       },
 }
 
-/* ══════════════════════════════════
-   Resizable Header
-══════════════════════════════════ */
+/* Resizable Header */
 function GtlHeader({ headerHeight, columns, onResize }) {
   const drag = useRef(null)
 
@@ -48,9 +46,7 @@ function GtlHeader({ headerHeight, columns, onResize }) {
   )
 }
 
-/* ══════════════════════════════════
-   Resizable Table
-══════════════════════════════════ */
+/* Resizable Table */
 function GtlTable({ rowHeight, tasks, columns, onExpanderClick }) {
   return (
     <div className="gtl-body">
@@ -100,11 +96,9 @@ function GtlTable({ rowHeight, tasks, columns, onExpanderClick }) {
   )
 }
 
-const colWidth = m => ({ [ViewMode.Day]: 38, [ViewMode.Week]: 60, [ViewMode.Month]: 95 }[m] ?? 95)
+const colWidth = m => ({ [ViewMode.Day]: 65, [ViewMode.Week]: 60, [ViewMode.Month]: 95 }[m] ?? 95)
 
-/* ══════════════════════════════════
-   Main component
-══════════════════════════════════ */
+/* Main component */
 export default function GanttChartComponent({ project }) {
   const [tasks,    setTasks]    = useState([])
   const [viewMode, setViewMode] = useState(ViewMode.Month)
@@ -153,8 +147,8 @@ export default function GanttChartComponent({ project }) {
           tasks={tasks}
           viewMode={viewMode}
           columnWidth={colWidth(viewMode)}
-          todayColor="rgba(239,68,68,0.45)"
-          arrowColor="#334466"
+          todayColor="rgba(128, 128, 128, 0.3)"
+          arrowColor="#808080"
           fontFamily="-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif"
           fontSize="12px"
           onDateChange={() => {}}

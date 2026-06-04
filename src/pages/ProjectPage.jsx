@@ -2,7 +2,6 @@ import { useRef, useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { useProjectData } from '../hooks/useProjectData'
 import GanttChart from '../components/GanttChart'
-import TaskHierarchy from '../components/TaskHierarchy'
 import LoadingSpinner from '../components/LoadingSpinner'
 import ErrorMessage from '../components/ErrorMessage'
 import ProjectHeader from '../components/ProjectHeader'
@@ -11,19 +10,6 @@ import './ProjectPage.css'
 function ProjectPage() {
   const { uuid } = useParams()
   const { project, loading, error } = useProjectData(uuid)
-  const mainContentRef = useRef(null)
-  const [sidebarMaxHeight, setSidebarMaxHeight] = useState(null)
-
-  useEffect(() => {
-    if (!mainContentRef.current) return
-
-    const observer = new ResizeObserver(() => {
-      setSidebarMaxHeight(mainContentRef.current.offsetHeight)
-    })
-
-    observer.observe(mainContentRef.current)
-    return () => observer.disconnect()
-  }, [project]) // перезапускаем когда проект загрузился
 
   if (loading) return <LoadingSpinner />
   if (error) return <ErrorMessage error={error} />
@@ -34,26 +20,11 @@ function ProjectPage() {
       <ProjectHeader project={project} uuid={uuid} />
 
       <div className="project-content">
-        <div
-          className="sidebar"
-          style={{ maxHeight: sidebarMaxHeight ? `${sidebarMaxHeight}px` : 'none' }}
-        >
-          <h2>Структура задач</h2>
-          {project.tasks && project.tasks.length > 0 ? (
-            <TaskHierarchy tasks={project.tasks} />
-          ) : (
-            <p className="empty-message">Нет задач</p>
-          )}
-        </div>
-
-        <div className="main-content" ref={mainContentRef}>
-          <h2>Диаграмма Ганта</h2>
-          {project.tasks && project.tasks.length > 0 ? (
-            <GanttChart project={project} />
-          ) : (
-            <p className="empty-message">Нет данных для отображения диаграммы</p>
-          )}
-        </div>
+        {project.tasks && project.tasks.length > 0 ? (
+          <GanttChart project={project} />
+        ) : (
+          <p className="empty-message">Нет данных для отображения диаграммы</p>
+        )}
       </div>
     </div>
   )
